@@ -39,7 +39,7 @@ go run ./cmd/lunar-tear \
 
 `10.0.2.2` is the standard Android emulator address for your host machine's localhost. If connecting from a real device on the same network, use your machine's local IP instead.
 
-:::tip Avoid `sudo` on Linux
+:::tip[Avoid `sudo` on Linux]
 The gRPC server binds to port 443 (privileged). Instead of running with `sudo`, you can grant the binary the capability it needs:
 
 ```bash
