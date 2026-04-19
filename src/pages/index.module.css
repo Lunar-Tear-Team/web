@@ -1,0 +1,231 @@
+/* ── Hero ─────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 6rem 2rem;
+  text-align: center;
+  background-image: url('/img/hero-bg.webp');
+  background-size: cover;
+  background-position: center 40%;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    rgba(10, 10, 10, 0.75) 100%
+  );
+  pointer-events: none;
+}
+
+.heroOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6rem;
+  background: linear-gradient(to bottom, transparent, var(--ifm-background-color));
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.heroEyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+  color: #fff;
+}
+
+.heroSubtitle {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 2.5rem;
+  font-style: italic;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.heroButtons :global(.button--primary) {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #0a0a0a;
+}
+
+.heroButtons :global(.button--primary:hover) {
+  background: var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
+  color: #0a0a0a;
+}
+
+.heroButtons :global(.button--outline) {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.heroButtons :global(.button--outline:hover) {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Notice ───────────────────────────────────────────────── */
+
+.notice {
+  background: rgba(184, 146, 42, 0.08);
+  border-top: 1px solid rgba(184, 146, 42, 0.2);
+  border-bottom: 1px solid rgba(184, 146, 42, 0.2);
+  padding: 1.25rem 0;
+}
+
+.notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-800);
+  text-align: center;
+  max-width: 720px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+.notice strong {
+  color: var(--ifm-color-primary);
+}
+
+/* ── Features ─────────────────────────────────────────────── */
+
+.features {
+  padding: 5rem 0;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 3rem;
+  color: var(--ifm-color-primary);
+  letter-spacing: 0.02em;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 996px) {
+  .featureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  padding: 1.75rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-card-border-radius);
+  background: var(--ifm-card-background-color);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.featureCard:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+}
+
+.featureIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.featureTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.featureBody {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Community ────────────────────────────────────────────── */
+
+.community {
+  padding: 5rem 0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.communityInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.communityTitle {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.communityBody {
+  color: var(--ifm-color-emphasis-700);
+  max-width: 480px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.communityButtons {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .communityInner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .communityButtons {
+    justify-content: center;
+  }
+}
