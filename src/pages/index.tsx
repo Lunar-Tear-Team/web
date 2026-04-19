@@ -10,10 +10,10 @@ function Hero() {
   return (
     <header className={styles.hero}>
       <div className={styles.heroInner}>
-        <p className={styles.heroEyebrow}>NieR Re[in]carnation · Private Server</p>
+        <p className={styles.heroEyebrow}>NieR Re[in]carnation Preservation Toolkit</p>
         <h1 className={styles.heroTitle}>Lunar Tear</h1>
         <p className={styles.heroSubtitle}>
-          The official servers are gone but the story isn't over.
+          A preservation server implementation for The Cage.
         </p>
         <div className={styles.heroButtons}>
           <Link className="button button--primary button--lg" to="/docs/getting-started">
@@ -126,11 +126,10 @@ function Community() {
     <section className={styles.community}>
       <div className="container">
         <div className={styles.communityInner}>
-          <div>
+          <div className={styles.communityContent}>
             <h2 className={styles.communityTitle}>Join the Community</h2>
             <p className={styles.communityBody}>
-              The Discord is currently developer-focused. If you're interested in contributing
-              or following development progress, come join us.
+              Follow development, discuss self-hosting, and help shape the project on Discord.
             </p>
           </div>
           <div className={styles.communityButtons}>
@@ -156,7 +155,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Private Server"
-      description="Fan-made private server for NieR Re[in]carnation. Non-commercial game preservation project."
+      description="Open-source, fan-made self-hosted server implementation for NieR Re[in]carnation. Non-commercial game preservation project."
     >
       <Head>
         <title>Lunar Tear</title>

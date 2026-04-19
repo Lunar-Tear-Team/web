@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Lunar Tear',
   tagline: 'NieR Re[in]carnation - Private Server',
-  favicon: 'img/logo.png',
+  favicon: 'img/logo.webp',
 
   future: {
     v4: true,
@@ -58,7 +58,7 @@ const config: Config = {
       title: 'Lunar Tear',
       logo: {
         alt: 'Lunar Tear Logo',
-        src: 'img/logo.png',
+        src: 'img/logo.webp',
       },
       items: [
         {
@@ -93,7 +93,7 @@ const config: Config = {
       style: 'dark',
       logo: {
         alt: 'Lunar Tear',
-        src: 'img/logo.png',
+        src: 'img/logo.webp',
         href: '/',
       },
       links: [],

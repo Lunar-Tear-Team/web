@@ -19,7 +19,20 @@ export default function FooterLayout({
       <div className="container container-fluid">
         {links}
         <div className={styles.footerBottom}>
-          <span className={styles.wordmark}>{WORDMARK}</span>
+          <svg
+            className={styles.wordmark}
+            viewBox="0 0 1000 140"
+            role="img"
+            aria-label={WORDMARK}
+            preserveAspectRatio="xMidYMid meet">
+            <text
+              className={styles.wordmarkText}
+              x="500"
+              y="102"
+              textAnchor="middle">
+              {WORDMARK}
+            </text>
+          </svg>
           {copyright && <div className={styles.copyright}>{copyright}</div>}
         </div>
       </div>
