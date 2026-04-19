@@ -22,10 +22,19 @@
   padding: 10rem 2rem 6rem;
   margin-top: calc(-1 * (var(--ifm-navbar-height) + 3rem));
   text-align: center;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: -0.75rem;
   background-image: url('/img/hero-bg.webp');
   background-size: cover;
-  background-position: center 40%;
-  overflow: hidden;
+  background-position: center 62%;
+  filter: blur(6px);
+  transform: scale(1.02);
+  z-index: 0;
 }
 
 .hero::before {
@@ -39,6 +48,7 @@
     rgba(10, 10, 10, 0.75) 100%
   );
   pointer-events: none;
+  z-index: 1;
 }
 
 [data-theme='light'] .hero::before {
@@ -58,11 +68,12 @@
   height: 6rem;
   background: linear-gradient(to bottom, transparent, var(--ifm-background-color));
   pointer-events: none;
+  z-index: 1;
 }
 
 .heroInner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 720px;
   animation: fadeUp 0.8s ease both;
 }
@@ -184,6 +195,10 @@
 }
 
 @media (max-width: 600px) {
+  .hero::after {
+    background-position: center 48%;
+  }
+
   .featureGrid {
     grid-template-columns: 1fr;
   }

@@ -30,5 +30,5 @@ Lunar Tear is **self-hosted**. There is no central server. You run the server so
 ## Getting Involved
 
 - Read the [Getting Started](/docs/getting-started) guide to run your own instance
-- Join the [Discord](https://discord.gg/G3anrfcV) for development discussion
+- Join the [Discord](https://discord.gg/MZAf5aVkJG) for development discussion
 - Browse the [FAQ](/docs/faq) for common questions

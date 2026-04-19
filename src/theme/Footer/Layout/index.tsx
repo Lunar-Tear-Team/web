@@ -19,15 +19,7 @@ export default function FooterLayout({
       <div className="container container-fluid">
         {links}
         <div className={styles.footerBottom}>
-          <span className={styles.wordmark} aria-label={WORDMARK}>
-            {WORDMARK.split('').map((char, i) =>
-              char === ' ' ? (
-                <span key={i} className={styles.wordmarkSpace}>&nbsp;</span>
-              ) : (
-                <span key={i} className={styles.wordmarkLetter}>{char}</span>
-              )
-            )}
-          </span>
+          <span className={styles.wordmark}>{WORDMARK}</span>
           {copyright && <div className={styles.copyright}>{copyright}</div>}
         </div>
       </div>

@@ -73,7 +73,7 @@ const config: Config = {
           label: 'Wiki',
         },
         {
-          href: 'https://discord.gg/G3anrfcV',
+          href: 'https://discord.gg/MZAf5aVkJG',
           label: 'Discord',
           position: 'right',
         },

@@ -136,7 +136,7 @@ function Community() {
           <div className={styles.communityButtons}>
             <a
               className="button button--primary button--lg"
-              href="https://discord.gg/G3anrfcV"
+              href="https://discord.gg/MZAf5aVkJG"
               target="_blank"
               rel="noopener noreferrer"
             >

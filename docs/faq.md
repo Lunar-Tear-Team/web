@@ -26,7 +26,7 @@ Android (via patched APK) running on an emulator or rooted device. iOS support i
 1. Make sure the server is actually running on your machine
 2. Confirm the `--host` flag matches the address the emulator/device uses to reach your machine (`10.0.2.2` for most Android emulators)
 3. Check that port 443 (gRPC) is not blocked by a firewall
-4. Ask in the [Discord](https://discord.gg/G3anrfcV) if you're still stuck
+4. Ask in the [Discord](https://discord.gg/MZAf5aVkJG) if you're still stuck
 
 ## Can I contribute to the project?
 
@@ -34,4 +34,4 @@ Yes. Check the [GitHub](https://github.com/Walter-Sparrow/lunar-tear) or [GitLab
 
 ## How do I report a bug?
 
-Open an issue on [GitHub](https://github.com/Walter-Sparrow/lunar-tear) or [GitLab](https://gitlab.com/walter-sparrow-group/lunar-tear), or report it in the [Discord](https://discord.gg/G3anrfcV). Include your OS, Go version, client version, emulator, and steps to reproduce.
+Open an issue on [GitHub](https://github.com/Walter-Sparrow/lunar-tear) or [GitLab](https://gitlab.com/walter-sparrow-group/lunar-tear), or report it in the [Discord](https://discord.gg/MZAf5aVkJG). Include your OS, Go version, client version, emulator, and steps to reproduce.

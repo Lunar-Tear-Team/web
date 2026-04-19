@@ -51,7 +51,7 @@ sudo setcap cap_net_bind_service=+ep ./lunar-tear
 
 ## Step 4. Patch and connect the client
 
-The game client needs to be redirected to point at your local server instead of Square Enix's endpoints. Patching instructions and a pre-patched APK are available in the [Discord](https://discord.gg/G3anrfcV).
+The game client needs to be redirected to point at your local server instead of Square Enix's endpoints. Patching instructions and a pre-patched APK are available in the [Discord](https://discord.gg/MZAf5aVkJG).
 
 Install the patched APK in your emulator, launch the game, and it will connect to your locally running server.
 
@@ -72,4 +72,4 @@ Install the patched APK in your emulator, launch the game, and it will connect t
 
 ## Troubleshooting
 
-If you run into issues, check the [FAQ](/docs/faq) or ask in the [Discord](https://discord.gg/G3anrfcV).
+If you run into issues, check the [FAQ](/docs/faq) or ask in the [Discord](https://discord.gg/MZAf5aVkJG).
