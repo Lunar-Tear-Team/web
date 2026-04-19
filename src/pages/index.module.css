@@ -342,7 +342,12 @@
 @media (max-width: 768px) {
   .communityInner {
     flex-direction: column;
+    gap: 1.25rem;
     text-align: center;
+  }
+
+  .communityContent {
+    flex: none;
   }
 
   .communityBody {

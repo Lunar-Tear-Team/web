@@ -10,7 +10,7 @@ function Hero() {
   return (
     <header className={styles.hero}>
       <div className={styles.heroInner}>
-        <p className={styles.heroEyebrow}>NieR Re[in]carnation Preservation Toolkit</p>
+        <p className={styles.heroEyebrow}>NieR Re[in]carnation Preservation</p>
         <h1 className={styles.heroTitle}>Lunar Tear</h1>
         <p className={styles.heroSubtitle}>
           A preservation server implementation for The Cage.
