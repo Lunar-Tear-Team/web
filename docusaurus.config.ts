@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Lunar Tear',
   tagline: 'NieR Re[in]carnation - Private Server',
-  favicon: 'img/logo.webp',
+  favicon: 'img/favicon.webp',
 
   future: {
     v4: true,
@@ -65,6 +65,7 @@ const config: Config = {
           to: '/',
           label: 'Home',
           position: 'left',
+          activeBaseRegex: '^/$',
         },
         {
           type: 'docSidebar',

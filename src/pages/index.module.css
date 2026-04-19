@@ -168,6 +168,36 @@
   border-color: var(--ifm-color-primary);
 }
 
+/* ── Intro ───────────────────────────────────────────────── */
+
+.intro {
+  padding: 2rem 0;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: #ebe6da;
+  animation: fadeUp 0.6s ease 0.45s both;
+}
+
+[data-theme='dark'] .intro {
+  background: #292927;
+  border-color: rgba(245, 241, 214, 0.12);
+}
+
+.intro p {
+  max-width: 60rem;
+  margin: 0 auto;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 1rem;
+  line-height: 1.75;
+  text-align: center;
+  animation: fadeUp 0.6s ease 0.55s both;
+}
+
+.intro strong,
+.intro em {
+  color: var(--ifm-color-primary);
+}
+
 /* ── Features ─────────────────────────────────────────────── */
 
 .features {
@@ -227,9 +257,7 @@
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: var(--ifm-card-border-radius);
   background: var(--ifm-card-background-color);
-  transition: border-color 0.2s, transform 0.1s ease-out;
   overflow: hidden;
-  will-change: transform;
   animation: fadeUp 0.6s ease both;
 }
 
@@ -244,10 +272,6 @@
 .featureCard:nth-child(4) { animation-delay: 0.4s; }
 .featureCard:nth-child(5) { animation-delay: 0.5s; }
 .featureCard:nth-child(6) { animation-delay: 0.6s; }
-
-.featureCard:hover {
-  border-color: var(--ifm-color-primary);
-}
 
 .featureCardSpotlight {
   position: absolute;

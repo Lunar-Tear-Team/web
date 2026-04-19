@@ -1,5 +1,4 @@
 import type {ReactNode, MouseEvent} from 'react';
-import {useRef} from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
@@ -26,6 +25,20 @@ function Hero() {
       </div>
       <div className={styles.heroOverlay} />
     </header>
+  );
+}
+
+function Intro() {
+  return (
+    <section className={styles.intro}>
+      <div className="container">
+        <p>
+          <strong>Lunar Tear</strong> is a fan-made server implementation for{' '}
+          <em>NieR Re[in]carnation</em>, the mobile RPG developed by Square Enix and
+          Applibot, which shut down its official servers on April 29, 2024.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -69,34 +82,17 @@ const features: Feature[] = [
 ];
 
 function FeatureCard({icon, title, body}: Feature) {
-  const ref = useRef<HTMLDivElement>(null);
-
   function onMouseMove(e: MouseEvent<HTMLDivElement>) {
-    const card = ref.current;
-    if (!card) return;
+    const card = e.currentTarget;
     const {left, top, width, height} = card.getBoundingClientRect();
     const x = (e.clientX - left) / width;
     const y = (e.clientY - top) / height;
-    const rotateX = (y - 0.5) * -12;
-    const rotateY = (x - 0.5) * 12;
-    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
     card.style.setProperty('--mouse-x', `${x * 100}%`);
     card.style.setProperty('--mouse-y', `${y * 100}%`);
   }
 
-  function onMouseLeave() {
-    const card = ref.current;
-    if (!card) return;
-    card.style.transform = '';
-  }
-
   return (
-    <div
-      ref={ref}
-      className={styles.featureCard}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-    >
+    <div className={styles.featureCard} onMouseMove={onMouseMove}>
       <div className={styles.featureCardSpotlight} />
       <span className={styles.featureIcon}>{icon}</span>
       <h3 className={styles.featureTitle}>{title}</h3>
@@ -161,6 +157,7 @@ export default function Home(): ReactNode {
         <title>Lunar Tear</title>
       </Head>
       <Hero />
+      <Intro />
       <Features />
 <Community />
     </Layout>
