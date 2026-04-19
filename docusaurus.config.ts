@@ -52,10 +52,10 @@ const config: Config = {
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
-      respectPrefersColorScheme: true,
+      respectPrefersColorScheme: false,
     },
     navbar: {
-      title: '',
+      title: 'Lunar Tear',
       logo: {
         alt: 'Lunar Tear Logo',
         src: 'img/logo.png',
@@ -73,38 +73,30 @@ const config: Config = {
           label: 'Wiki',
         },
         {
+          href: 'https://discord.gg/G3anrfcV',
+          label: 'Discord',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/Walter-Sparrow/lunar-tear',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          href: 'https://gitlab.com/walter-sparrow-group/lunar-tear',
+          label: 'GitLab',
           position: 'right',
         },
       ],
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Wiki',
-          items: [
-            {label: 'Introduction', to: '/docs/intro'},
-            {label: 'Getting Started', to: '/docs/getting-started'},
-{label: 'FAQ', to: '/docs/faq'},
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {label: 'Discord', href: 'https://discord.gg/G3anrfcV'},
-            {label: 'GitHub', href: 'https://github.com/Walter-Sparrow/lunar-tear'},
-            {label: 'GitLab', href: 'https://gitlab.com/walter-sparrow-group/lunar-tear'},
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {label: 'Legal Disclaimer', to: '/legal'},
-          ],
-        },
-      ],
+      logo: {
+        alt: 'Lunar Tear',
+        src: 'img/logo.png',
+        href: '/',
+      },
+      links: [],
       copyright: `Copyright © ${new Date().getFullYear()} Lunar Tear Team. Fan-made preservation project. Not affiliated with Square Enix or Applibot. No game files distributed. Non-commercial.`,
     },
     prism: {

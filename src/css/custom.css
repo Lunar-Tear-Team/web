@@ -1,27 +1,143 @@
-/* NieR Re[in]carnation inspired palette — gold/amber on dark */
+/* Lunar Tear palette — cream/stone on dark */
 
 :root {
-  --ifm-color-primary: #b8922a;
-  --ifm-color-primary-dark: #a5821f;
-  --ifm-color-primary-darker: #9c7a1d;
-  --ifm-color-primary-darkest: #806418;
-  --ifm-color-primary-light: #cba235;
-  --ifm-color-primary-lighter: #d4ab3e;
-  --ifm-color-primary-lightest: #ddbf5e;
+  --ifm-color-primary: #52514C;
+  --ifm-color-primary-dark: #47463F;
+  --ifm-color-primary-darker: #403F3A;
+  --ifm-color-primary-darkest: #333230;
+  --ifm-color-primary-light: #5E5D58;
+  --ifm-color-primary-lighter: #6A6964;
+  --ifm-color-primary-lightest: #7D796E;
+  --ifm-font-color-base: #242321;
+  --ifm-heading-color: #242321;
+  --ifm-link-color: #52514C;
+  --ifm-background-color: #f8f6ef;
+  --ifm-card-background-color: #ffffff;
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-link-color: #242321;
+  --ifm-navbar-link-hover-color: #52514C;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-wrapper {
+  padding-top: calc(var(--ifm-navbar-height) + 3rem);
+}
+
+.navbar {
+  position: fixed !important;
+  top: 1.25rem !important;
+  left: 1.5rem;
+  right: 1.5rem;
+  width: calc(100% - 3rem);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(248, 246, 239, 0.82);
+  border: 1px solid rgba(36, 35, 33, 0.1);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(36, 35, 33, 0.12);
+}
+
+.navbar__toggle {
+  color: var(--ifm-navbar-link-color);
+}
+
+[data-theme='dark'] .navbar {
+  background: rgba(26, 26, 25, 0.75);
+  border: 1px solid rgba(245, 241, 214, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-sidebar {
+  background: #f8f6ef;
+  color: #242321;
+  z-index: calc(var(--ifm-z-index-overlay) + 1);
+}
+
+.navbar-sidebar__brand {
+  background: #f8f6ef;
+}
+
+.navbar-sidebar__backdrop {
+  z-index: var(--ifm-z-index-overlay);
+}
+
+[data-theme='dark'] .navbar-sidebar,
+[data-theme='dark'] .navbar-sidebar__brand {
+  background: #222221;
+  color: #ffffff;
+}
+
+@media (max-width: 996px) {
+  .main-wrapper {
+    padding-top: calc(var(--ifm-navbar-height) + 2rem);
+  }
+
+  .navbar {
+    top: 1rem !important;
+    left: 1rem;
+    right: 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .navbar.navbar-sidebar--show {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .navbar-sidebar {
+    bottom: 0;
+    right: 0;
+    top: 0;
+    width: min(83vw, 24rem);
+  }
+
+  .navbar-sidebar__item {
+    width: min(83vw, 24rem);
+  }
+}
+
+
+.footer--dark {
+  background-color: #333231 !important;
+}
+
+html,
+body {
+  background-color: #f8f6ef;
+}
+
+html[data-theme='dark'],
+[data-theme='dark'] body {
+  background-color: #222221;
+}
+
 [data-theme='dark'] {
-  --ifm-color-primary: #d4ab3e;
-  --ifm-color-primary-dark: #c99d2f;
-  --ifm-color-primary-darker: #be952c;
-  --ifm-color-primary-darkest: #9c7a24;
-  --ifm-color-primary-light: #dbb94e;
-  --ifm-color-primary-lighter: #dec057;
-  --ifm-color-primary-lightest: #e6cf78;
-  --ifm-background-color: #0e0e0e;
-  --ifm-navbar-background-color: #0a0a0a;
-  --ifm-footer-background-color: #0a0a0a;
+  --ifm-font-color-base: #ffffff;
+  --ifm-heading-color: #ffffff;
+  --ifm-color-primary: #C8C09A;
+  --ifm-link-color: #C8C09A;
+  --ifm-color-primary-dark: #B8B08A;
+  --ifm-color-primary-darker: #A8A07A;
+  --ifm-color-primary-darkest: #888060;
+  --ifm-color-primary-light: #D4CCA8;
+  --ifm-color-primary-lighter: #DED8B8;
+  --ifm-color-primary-lightest: #EAE4C8;
+  --ifm-background-color: #222221;
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: #C8C09A;
+  --ifm-footer-background-color: #000000;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }

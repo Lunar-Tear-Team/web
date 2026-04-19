@@ -1,0 +1,46 @@
+.footerBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0;
+}
+
+
+.wordmark {
+  display: block;
+  font-size: min(10vw, 12rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.wordmarkLetter {
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(245, 241, 214, 0.35);
+  text-stroke: 1.5px rgba(245, 241, 214, 0.35);
+  transition: color 0.2s ease, -webkit-text-stroke-color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  cursor: default;
+}
+
+.wordmarkLetter:hover {
+  color: rgba(245, 241, 214, 0.9);
+  -webkit-text-stroke-color: rgba(245, 241, 214, 0.9);
+  transform: translateY(-4px) scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(245, 241, 214, 0.6));
+}
+
+.wordmarkSpace {
+  display: inline-block;
+  width: 0.4em;
+}
+
+
+.copyright {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+  text-align: center;
+}

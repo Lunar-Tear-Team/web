@@ -22,6 +22,11 @@ const sidebars: SidebarsConfig = {
       id: 'faq',
       label: 'FAQ',
     },
+    {
+      type: 'doc',
+      id: 'legal',
+      label: 'Legal Disclaimer',
+    },
   ],
 };
 

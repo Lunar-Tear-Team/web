@@ -7,7 +7,7 @@ sidebar_position: 5
 
 ## Is this legal?
 
-Lunar Tear is a fan project. The official NieR Re[in]carnation servers shut down on April 29, 2024, making this the only way to play the game. We do not charge for access, distribute the game client, or profit in any way. The project is run in the spirit of game preservation.
+Lunar Tear is a fan project. The official NieR Re[in]carnation servers shut down on April 29, 2024, making this the only way to play the game. We do not charge for access, distribute the game client, or profit in any way. The project is run in the spirit of game preservation. See the full [Legal Disclaimer](/docs/legal).
 
 ## Is there a public server I can connect to?
 
