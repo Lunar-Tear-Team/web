@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktmp_lunar_tear_scaffold=self.webpackChunktmp_lunar_tear_scaffold||[]).push([["668"],{6569(e,r,a){a.r(r),a.d(r,{default:()=>f});var s=a(4848);a(6540);var t=a(4164),u=a(4308),c=a(8287),l=a(2831),n=a(1085);function f(e){return(0,s.jsx)(u.e3,{className:(0,t.A)(c.G.wrapper.docsPages),children:(0,s.jsx)(n.A,{children:(0,l.v)(e.route.routes)})})}}}]);
