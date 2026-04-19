@@ -1,6 +1,7 @@
 ---
 title: Legal Disclaimer
 description: Legal disclaimer for the Lunar Tear fan project.
+sidebar_position: 99
 ---
 
 # Legal Disclaimer
