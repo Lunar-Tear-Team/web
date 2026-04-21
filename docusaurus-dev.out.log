@@ -1,0 +1,17 @@
+
+> tmp-lunar-tear-scaffold@0.0.0 start
+> docusaurus start --host 127.0.0.1 --port 3000
+
+[INFO] Starting the development server...
+[SUCCESS] Docusaurus website is running at: http://127.0.0.1:3000/
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m
+persistent cache save failed. move temp files failed
+move `C:\Users\Nekojin116\Documents\GitHub\web\node_modules\.cache\rspack\.temp\43c17d8600f68ed1\snapshot_build\18\9fd0f43546c45012` failed due to `The system cannot find the path specified. (os error 3)`
+move `C:\Users\Nekojin116\Documents\GitHub\web\node_modules\.cache\rspack\.temp\43c17d8600f68ed1\snapshot_build\7\7434d871373bf4b4` failed due to `Access is denied. (os error 5)`
+move `C:\Users\Nekojin116\Documents\GitHub\web\node_modules\.cache\rspack\.temp\43c17d8600f68ed1\snapshot_build\4\3efcd4c34eede54a` failed due to `Access is denied. (os error 5)`
+persistent cache save failed. read `C:\Users\Nekojin116\Documents\GitHub\web\node_modules\.cache\rspack\57e20662b3c4cb83\occasion_make_module_graph\1\73352c66afc6e83b` failed due to `pack `C:\Users\Nekojin116\Documents\GitHub\web\node_modules\.cache\rspack\57e20662b3c4cb83\occasion_make_module_graph\1\73352c66afc6e83b` is released and deleted`
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m
+[1mclient[39m[22m (Rspack 1.7.11) compiled [1m[32msuccessfully[39m[22m

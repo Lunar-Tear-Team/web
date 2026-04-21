@@ -2,8 +2,216 @@
 sidebar_position: 1
 ---
 
-# Guide
+# Installation
 
-:::caution[Coming Soon]
-This section is under construction. Check back later.
+All commands in this guide are run from `cage/` unless stated otherwise. This guide is optimized for Windows users planning to use an emulator for the game.
+
+## Folder Layout
+
+```text
+cage/
+  lunar-tear/               <- server repo (https://github.com/Walter-Sparrow/lunar-tear)
+    server/
+      assets/               <- game data
+        master_data/        <- JSON tables dumped from .bin.e
+        release/            <- .bin.e file goes here
+        revisions/          <- extracted asset bundles go here
+      snapshots/
+  lunar-scripts/            <- scripts repo (https://gitlab.com/walter-sparrow-group/lunar-scripts)
+    dump_masterdata.py
+    patch_masterdata.py
+    patch_apk.py
+    schemas.json
+  20240404193219.bin.e      <- download from #resources
+  NieR Re[in]carnation 3.7.1.apk
+  resource_dump_android.7z  <- download from #resources
+```
+
+## Prerequisites
+
+Install the tools below before starting, and make sure they are available in your `PATH`.
+
+### Needed for Quick Start
+
+| Tool | Where to get it |
+| --- | --- |
+| **Go 1.25+** | [go.dev](https://go.dev) |
+| **protoc** | [Protocol Buffers releases](https://github.com/protocolbuffers/protobuf/releases) |
+| `make` | [GnuWin32 Make 3.81](https://sourceforge.net/projects/gnuwin32/files/make/3.81/make-3.81.exe/download) |
+| Goose | `go install github.com/pressly/goose/v3/cmd/goose@latest` |
+
+```bash
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
+
+### Needed for Manual Patching
+
+| Tool | Where to get it |
+| --- | --- |
+| **Python 3** | [python.org](https://python.org) |
+| **Java (JDK)** | [Adoptium](https://adoptium.net) |
+| **apktool** | [apktool.org](https://apktool.org) |
+| **Android build tools** (`apksigner`, `zipalign`) | See `android-tools-and-tailscale.md#android-build-tools` |
+
+```bash
+pip install pycryptodome msgpack lz4
+```
+
+### Optional
+
+| Tool | Where to get it |
+| --- | --- |
+| Windows Terminal | [Microsoft Store](https://apps.microsoft.com/detail/9n0dx20hk701) |
+
+## Step 1 - Prepare the Asset Folders
+
+Open your terminal in `cage/`.
+
+Create the required folders and copy the master data binary into place:
+
+```bash
+mkdir "lunar-tear/server/assets/release"
+mkdir "lunar-tear/server/assets/master_data"
+mkdir "lunar-tear/server/assets/revisions"
+```
+
+Copy or move the `.bin.e` into the release folder, but keep the original at the `cage/` root untouched.
+
+Extract `resource_dump_android.7z` into `lunar-tear/server/assets/revisions/`.
+
+:::tip[Tip To Save Space]
+Only Revision 0 is currently necessary, so you can safely extract only folder `0` to save space.
+:::
+
+## Step 2 - APK and Data Patching
+
+### Quick Start
+
+1. Open `lunar_tear_patcher.ipynb` in [Google Colab](https://colab.research.google.com/).
+2. Paste your download URLs.
+3. Click `Run All`.
+4. Let the notebook handle everything: dependencies, APK patching, master data patching, and file downloads.
+5. When the notebook finishes, it will give you a patched APK, a patched `.bin.e`, and dumped JSON in a `.zip`.
+6. Place the files in their folders:
+   - Put the `.bin.e` in `lunar-tear/server/assets/release/`
+   - Extract the `.zip` into `lunar-tear/server/assets/master_data/`
+7. You can now skip to [Step 3](#step-3---generate-server-code).
+
+### Manual Patching
+
+#### Dump the Master Data
+
+This decrypts the `.bin.e` and converts it into JSON files the server can read. Column names are resolved automatically from `lunar-scripts/schemas.json`, with no external dependencies needed.
+
+```bash
+set "PYTHONUTF8=1" && python3 lunar-scripts/dump_masterdata.py --input lunar-tear/server/assets/release/20240404193219.bin.e --output lunar-tear/server/assets/master_data
+```
+
+> This is a CMD command. If you are using PowerShell, use `$env:PYTHONUTF8 = 1;` instead of `set "PYTHONUTF8=1" &&`.
+
+When done, `lunar-tear/server/assets/master_data/` should be filled with `EntityM*.json` files.
+
+#### Patch the Master Data
+
+```bash
+python3 lunar-scripts/patch_masterdata.py --input lunar-tear/server/assets/release/20240404193219.bin.e
+```
+
+:::info[Why?]
+This extends all content expiry dates inside the `.bin.e` so events, quests, and banners do not show as expired.
+
+It also empties the maintenance table so the game never shows a maintenance screen.
+:::
+
+#### Patch the APK
+
+Decompile the APK:
+
+```bash
+apktool d "NieR Re[in]carnation 3.7.1.apk" -o patched
+```
+
+Replace `100.x.x.x` with:
+
+- For Tailscale users: your Tailscale IP
+- For emulator users: `10.0.2.2`
+
+```bash
+python3 lunar-scripts/patch_apk.py patched --server-ip 100.x.x.x --http-port 8080
+```
+
+Rebuild the APK:
+
+```bash
+apktool b patched -o patched.apk
+zipalign -f -v 4 patched.apk patched_aligned.apk
+```
+
+:::warning[Note]
+You will not need `patched.apk` in the next steps.
+:::
+
+Generate a signing key one time only. Skip this if you already have `debug.keystore`.
+
+```bash
+keytool -genkeypair -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+```
+
+Sign the APK:
+
+```bash
+apksigner sign --ks debug.keystore --ks-pass pass:android patched_aligned.apk
+```
+
+You now have `patched_aligned.apk` ready to install.
+
+## Step 3 - Generate Server Code
+
+Open your terminal in the `cage/` folder.
+
+```bash
+cd lunar-tear/server
+make proto
+```
+
+This generates Go code from the `.proto` files and only needs to be done once.
+
+## Step 4 - Run the Server
+
+```bash
+cd lunar-tear/server
+go run ./cmd/lunar-tear --host 10.0.2.2 --http-port 8080
+```
+
+:::info[Saving]
+The game saves automatically. Any action that changes your progress is written to the database right away.
+:::
+
+Leave the terminal open. The server must keep running while you play.
+
+## Step 5 - Install and Play
+
+### Android phone or tablet
+
+Install the Tailscale app from the Play Store, then install the patched APK.
+
+- For the Quick Start method: transfer `patched.apk` to your phone and tap to install.
+- For the manual patching method: transfer `patched_aligned.apk` to your phone and tap to install.
+
+### Android emulator (BlueStacks, MuMuPlayer, ...)
+
+Drag and drop the APK onto the emulator window, or:
+
+```bash
+adb connect 127.0.0.1:<emulator-adb-port>
+adb install patched.apk
+```
+
+Since the emulator runs on the same PC as the server, Tailscale is not required for home use.
+
+> If you are using the emulator on a different PC away from home, install Tailscale on that PC and it will route through automatically.
+
+:::warning[Before You Launch]
+Make sure the server is running before launching the game.
 :::
