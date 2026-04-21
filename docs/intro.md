@@ -13,7 +13,9 @@ Lunar Tear is **self-hosted**. There is no central server. You run the server so
 
 ## What's working
 
-> The project is under active development. Not all features are available yet.
+:::caution[Under active development]
+Not all features are available yet. See the [Changelog](/docs/changelog) for the latest progress.
+:::
 
 | Feature | Status |
 |---|---|

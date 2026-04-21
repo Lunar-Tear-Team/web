@@ -7,6 +7,14 @@ sidebar_position: 2
 
 Lunar Tear is self-hosted. You run the server on your own machine and connect the game client to it locally. This guide walks you through the full setup.
 
+:::abstract[What you'll do]
+1. Clone the repo and populate the asset directory
+2. Run database migrations
+3. Import a game state snapshot
+4. Start the CDN and game server
+5. Patch the client and connect
+:::
+
 ## Requirements
 
 - **Go 1.25+** to build and run the server
@@ -33,6 +41,10 @@ cd server
 ## Step 2. Populate assets
 
 The server requires the original game's asset files in `server/assets/`. These are not distributed by this project. Extract them from the game client yourself.
+
+:::warning
+The server will not start if `server/assets/` is empty or missing. Populate it before continuing.
+:::
 
 ## Step 3. Set up the database
 
@@ -69,6 +81,10 @@ go run ./cmd/import-snapshot \
   --db db/game.db
 ```
 
+:::warning[UUID must match exactly]
+If the `--uuid` value does not match what the client sends, the server will not find the imported account and will create a blank one instead. See [How do I find my client UUID?](/docs/faq#how-do-i-find-my-client-uuid) before running the import.
+:::
+
 | Flag | Default | Description |
 |---|---|---|
 | `--snapshot` | *(required)* | Path to JSON snapshot file |
@@ -78,6 +94,10 @@ go run ./cmd/import-snapshot \
 ## Step 5. Run the server
 
 The server is split into two binaries: a gRPC game server and an HTTP asset CDN. Both must be running for the client to work.
+
+:::warning
+Start both `octo-cdn` and `lunar-tear`. The client will fail to connect if either is not running.
+:::
 
 **Start the CDN** (serves asset bundles, list.bin, master data, and web pages):
 
@@ -120,6 +140,10 @@ The game client needs to be redirected to point at your local server instead of 
 
 Install the patched APK in your emulator, launch the game, and it will connect to your locally running server.
 
+:::success
+If the game loads and reaches the title screen, the server is working correctly.
+:::
+
 ## Server flags
 
 ### Game server (`lunar-tear`)
@@ -149,6 +173,10 @@ Install the patched APK in your emulator, launch the game, and it will connect t
 
 ## Docker
 
+:::tip[Easiest setup]
+Docker Compose handles migrations automatically and runs all three services together. If you just want to get up and running quickly, this is the recommended path.
+:::
+
 Three services are available via Docker Compose: the game server (`lunar-tear`), the CDN (`octo-cdn`), and the auth server (`auth-server`). Migrations run automatically on game server start.
 
 ```bash
@@ -164,6 +192,10 @@ The `db/` directory is mounted as a volume so both `game.db` and `auth.db` persi
 | `cdn` | `kretts/octo-cdn:latest` | 8080 | HTTP asset CDN |
 | `auth` | `kretts/auth-server:latest` | 3000 | Account registration and login |
 
+:::question[Do you need the auth server?]
+Auth is optional. If you just want to play locally without account linking or recovery, you can skip it. Set `LUNAR_AUTH_URL` only if you want the Facebook login button in the client to work.
+:::
+
 Set `LUNAR_AUTH_URL` on the game server to connect it to the auth service (already wired in the default compose file). Auth is optional: if `LUNAR_AUTH_URL` is unset the game server starts without it.
 
 ## Auth server
@@ -177,7 +209,9 @@ go run ./cmd/auth-server \
   --db db/auth.db
 ```
 
-The `--secret` flag accepts a hex-encoded HMAC key. If omitted, a random key is generated on startup and printed to the console. Pass it back on the next restart to keep existing tokens valid.
+:::warning[Save your `--secret`]
+If `--secret` is omitted, a random key is generated on startup. All existing tokens become invalid if the server restarts without the same key. Save the printed secret and pass it on every restart.
+:::
 
 | Flag | Default | Description |
 |---|---|---|
