@@ -38,6 +38,10 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/Lunar-Tear-Team/web/tree/main/',
+          admonitions: {
+            keywords: ['question', 'abstract', 'success'],
+            extendDefaults: true,
+          },
         },
         blog: false,
         theme: {

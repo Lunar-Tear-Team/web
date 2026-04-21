@@ -1,5 +1,53 @@
 /* Lunar Tear palette — cream/stone on dark */
 
+/* ── Custom admonitions ───────────────────────────────────────────────────── */
+
+.admonition-custom-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* question — blue, matches MkDocs */
+.alert--question {
+  --ifm-alert-background-color: rgba(3, 120, 204, 0.08);
+  --ifm-alert-border-color: #0378cc;
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+}
+[data-theme='dark'] .alert--question {
+  --ifm-alert-background-color: rgba(3, 120, 204, 0.12);
+  --ifm-alert-border-color: #4aa8e8;
+}
+
+/* abstract — purple, matches MkDocs */
+.alert--abstract {
+  --ifm-alert-background-color: rgba(100, 80, 200, 0.08);
+  --ifm-alert-border-color: #6450c8;
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+}
+[data-theme='dark'] .alert--abstract {
+  --ifm-alert-background-color: rgba(130, 110, 220, 0.12);
+  --ifm-alert-border-color: #9080e0;
+}
+
+/* success — green, matches MkDocs */
+.alert--success {
+  --ifm-alert-background-color: rgba(30, 160, 90, 0.08);
+  --ifm-alert-border-color: #1ea05a;
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+}
+[data-theme='dark'] .alert--success {
+  --ifm-alert-background-color: rgba(40, 190, 110, 0.12);
+  --ifm-alert-border-color: #28be6e;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 :root {
   --ifm-color-primary: #52514C;
   --ifm-color-primary-dark: #47463F;
