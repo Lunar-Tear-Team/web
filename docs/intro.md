@@ -21,9 +21,15 @@ Lunar Tear is **self-hosted**. There is no central server. You run the server so
 | Event Quests | Working |
 | Subjugation Battles | Working |
 | Gacha (costumes & weapons) | Working |
-| Character & Weapon Management | Working |
+| Costume Enhancement, Awakening & Ascending | Working |
+| Weapon Enhancement, Awakening, Ascending & Evolution | Working |
+| Character Exalt & Mythic Slab | Working |
+| Skill & Ability Levelling | Working |
 | Memoirs & Companions | Working |
 | Item Shop & Missions | Working |
+| Explore System | Working |
+| 3D Viewer | Working |
+| Deck Skins | Working |
 | Retire Quest / Battle | Not Yet |
 | PvP / Colosseum | Not Yet |
 
@@ -32,3 +38,4 @@ Lunar Tear is **self-hosted**. There is no central server. You run the server so
 - Read the [Getting Started](/docs/getting-started) guide to run your own instance
 - Join the [Discord](https://discord.gg/MZAf5aVkJG) for development discussion
 - Browse the [FAQ](/docs/faq) for common questions
+- See the [Changelog](/docs/changelog) for recent progress

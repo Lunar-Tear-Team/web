@@ -52,27 +52,27 @@ const features: Feature[] = [
   {
     icon: '📖',
     title: 'Quests',
-    body: 'Main story quests, EX chapters, event quests, and subjugation battles. All functional.',
+    body: 'Main story quests, EX chapters, event quests, and subjugation battles are all functional.',
   },
   {
     icon: '🎲',
     title: 'Gacha',
-    body: 'Pull for costumes and weapons. The gacha system is implemented and working.',
+    body: 'Pull for costumes and weapons. The gacha system is fully implemented and working.',
   },
   {
     icon: '⚔️',
     title: 'Character & Weapon Management',
-    body: 'Enhance, ascend, awaken, and evolve costumes and weapons. Skill levelling and the mythic slab are fully tracked.',
+    body: 'Enhance, ascend, awaken, and evolve costumes and weapons. Skill levelling, character exalt, and the mythic slab are fully tracked.',
   },
   {
     icon: '🧩',
     title: 'Memoirs & Companions',
-    body: 'Memoir enhancement, deck management, and companion progression are all supported.',
+    body: 'Memoir enhancement, deck management, companion progression, and deck skins are all supported.',
   },
   {
     icon: '🛒',
     title: 'Shop & Missions',
-    body: 'The item shop, mission progress tracking, and daily rewards work as in the original game.',
+    body: 'The item shop, mission progress tracking, explore system, and daily rewards work as in the original game.',
   },
   {
     icon: '🌐',
