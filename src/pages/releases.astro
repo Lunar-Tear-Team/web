@@ -1,0 +1,186 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { renderMarkdown } from '../lib/markdown';
+
+type Release = {
+	id: number;
+	name: string | null;
+	tag_name: string;
+	html_url: string;
+	published_at: string | null;
+	body: string | null;
+	prerelease: boolean;
+	draft: boolean;
+	author: { login: string; html_url: string } | null;
+};
+
+const REPO = 'Walter-Sparrow/lunar-tear';
+
+async function fetchReleases(): Promise<Release[]> {
+	const headers: Record<string, string> = {
+		Accept: 'application/vnd.github+json',
+		'X-GitHub-Api-Version': '2022-11-28',
+		'User-Agent': 'lunar-tear-web',
+	};
+	if (import.meta.env.GITHUB_TOKEN) {
+		headers.Authorization = `Bearer ${import.meta.env.GITHUB_TOKEN}`;
+	}
+	try {
+		const res = await fetch(
+			`https://api.github.com/repos/${REPO}/releases?per_page=50`,
+			{ headers },
+		);
+		if (!res.ok) {
+			console.warn(`GitHub releases fetch failed: ${res.status} ${res.statusText}`);
+			return [];
+		}
+		const data = (await res.json()) as Release[];
+		return data.filter((r) => !r.draft);
+	} catch (err) {
+		console.warn('GitHub releases fetch error:', err);
+		return [];
+	}
+}
+
+const releases = await fetchReleases();
+
+function formatDate(iso: string | null): string {
+	if (!iso) return '';
+	return new Date(iso).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+}
+
+// Shift release-body headings two levels down so they nest cleanly under the
+// release's h2 title.
+const renderBody = (md: string | null) =>
+	renderMarkdown(md ?? '', { headingShift: 2 });
+---
+
+<StarlightPage
+	frontmatter={{
+		title: 'Releases',
+		description: `Release history for ${REPO} on GitHub.`,
+	}}
+>
+	<p>
+		Latest builds of the Lunar Tear server, pulled live from
+		<a href={`https://github.com/${REPO}/releases`} target="_blank" rel="noopener noreferrer">
+			github.com/{REPO}
+		</a>.
+	</p>
+
+	{
+		releases.length === 0 && (
+			<div class="empty">
+				<p>
+					No releases found yet, or GitHub's API is rate-limiting this build.
+					Check the
+					<a href={`https://github.com/${REPO}/releases`} target="_blank" rel="noopener noreferrer">
+						releases page on GitHub
+					</a>
+					directly.
+				</p>
+			</div>
+		)
+	}
+
+	{
+		releases.map((release) => (
+			<article class="release">
+				<header>
+					<h2>
+						<a href={release.html_url} target="_blank" rel="noopener noreferrer">
+							{release.name?.trim() || release.tag_name}
+						</a>
+						{release.prerelease && <span class="badge pre">Pre-release</span>}
+					</h2>
+					<p class="meta">
+						<code>{release.tag_name}</code>
+						{release.published_at && (
+							<>
+								<span class="dot">·</span>
+								<time datetime={release.published_at}>{formatDate(release.published_at)}</time>
+							</>
+						)}
+						{release.author && (
+							<>
+								<span class="dot">·</span>
+								<a href={release.author.html_url} target="_blank" rel="noopener noreferrer">
+									@{release.author.login}
+								</a>
+							</>
+						)}
+					</p>
+				</header>
+				<div class="body" set:html={renderBody(release.body)} />
+			</article>
+		))
+	}
+</StarlightPage>
+
+<style>
+	.release {
+		padding: 1.5rem 0;
+		border-bottom: 1px solid var(--sl-color-hairline-light);
+	}
+	.release:last-child {
+		border-bottom: none;
+	}
+	.release header h2 {
+		margin: 0;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+	.release header h2 a {
+		color: var(--sl-color-white);
+		text-decoration: none;
+	}
+	.release header h2 a:hover {
+		text-decoration: underline;
+	}
+	.meta {
+		margin: 0.5rem 0 1rem;
+		font-size: var(--sl-text-sm);
+		color: var(--sl-color-gray-3);
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.meta code {
+		font-size: 0.85em;
+	}
+	.dot {
+		opacity: 0.5;
+	}
+	.badge {
+		font-size: 0.7em;
+		padding: 0.15rem 0.5rem;
+		border-radius: 999px;
+		background: var(--sl-color-orange-low);
+		color: var(--sl-color-orange-high);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	.body :global(h3),
+	.body :global(h4),
+	.body :global(h5),
+	.body :global(h6) {
+		margin-top: 1.25rem;
+	}
+	.body :global(ul) {
+		padding-left: 1.5rem;
+	}
+	.empty {
+		padding: 1rem;
+		border: 1px dashed var(--sl-color-hairline);
+		border-radius: 0.5rem;
+		color: var(--sl-color-gray-3);
+	}
+</style>

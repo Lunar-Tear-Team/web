@@ -1,41 +1,44 @@
-# Website
+# Lunar Tear Website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+The website for [Lunar Tear](https://lunar-tear.com) — a fan-made, non-commercial preservation project for *NieR Re[in]carnation*.
 
-## Installation
+Built with [Astro](https://astro.build) + [Starlight](https://starlight.astro.build).
 
-```bash
-yarn
-```
-
-## Local Development
+## Development
 
 ```bash
-yarn start
+npm install
+npm run dev
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Dev server runs at <http://localhost:4321>.
 
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Static output is written to `./dist`.
+
+## Releases page
+
+The `/changelog` page fetches releases live from the GitHub API for [`Walter-Sparrow/lunar-tear`](https://github.com/Walter-Sparrow/lunar-tear) at build time. To avoid unauthenticated rate limits in CI, the deploy workflow passes `GITHUB_TOKEN` to the build step.
+
+## Project structure
+
+```
+public/                # static assets (favicon, CNAME)
+src/
+  assets/              # images bundled into pages
+  content/docs/        # Starlight docs collection
+    index.mdx          # hero landing page
+    guide/             # guide articles
+  pages/
+    changelog.astro    # GitHub releases page
+astro.config.mjs       # Starlight config: title, logo, sidebar, social
+```
 
 ## Deployment
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+`.github/workflows/deploy.yml` builds on every push to `main` and publishes `./dist` to the `gh-pages` branch (served from the `lunar-tear.com` CNAME).
