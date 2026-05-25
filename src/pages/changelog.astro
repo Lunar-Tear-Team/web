@@ -1,260 +1,84 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
-
-type Release = {
-	id: number;
-	name: string | null;
-	tag_name: string;
-	html_url: string;
-	published_at: string | null;
-	body: string | null;
-	prerelease: boolean;
-	draft: boolean;
-	author: { login: string; html_url: string } | null;
-};
+import { renderMarkdown } from '../lib/markdown';
 
 const REPO = 'Walter-Sparrow/lunar-tear';
+const BRANCH = 'main';
+const PATH = 'docs/CHANGELOG.md';
+const RAW_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}`;
+const SOURCE_URL = `https://github.com/${REPO}/blob/${BRANCH}/${PATH}`;
 
-async function fetchReleases(): Promise<Release[]> {
-	const headers: Record<string, string> = {
-		Accept: 'application/vnd.github+json',
-		'X-GitHub-Api-Version': '2022-11-28',
-		'User-Agent': 'lunar-tear-web',
-	};
-	if (import.meta.env.GITHUB_TOKEN) {
-		headers.Authorization = `Bearer ${import.meta.env.GITHUB_TOKEN}`;
-	}
+async function fetchChangelog(): Promise<string | null> {
 	try {
-		const res = await fetch(
-			`https://api.github.com/repos/${REPO}/releases?per_page=50`,
-			{ headers },
-		);
+		const res = await fetch(RAW_URL, {
+			headers: { 'User-Agent': 'lunar-tear-web' },
+		});
 		if (!res.ok) {
-			console.warn(`GitHub releases fetch failed: ${res.status} ${res.statusText}`);
-			return [];
+			console.warn(`CHANGELOG fetch failed: ${res.status} ${res.statusText}`);
+			return null;
 		}
-		const data = (await res.json()) as Release[];
-		return data.filter((r) => !r.draft);
+		return await res.text();
 	} catch (err) {
-		console.warn('GitHub releases fetch error:', err);
-		return [];
+		console.warn('CHANGELOG fetch error:', err);
+		return null;
 	}
 }
 
-const releases = await fetchReleases();
+const raw = await fetchChangelog();
 
-function formatDate(iso: string | null): string {
-	if (!iso) return '';
-	return new Date(iso).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	});
-}
-
-// Minimal Markdown → HTML for release bodies. Releases on GitHub typically use
-// simple Markdown; we render headings, lists, links, code, bold/italic, and
-// paragraphs. Anything more elaborate falls back to readable text.
-function escapeHtml(s: string): string {
-	return s
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#39;');
-}
-
-function renderInline(s: string): string {
-	let out = escapeHtml(s);
-	out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
-	out = out.replace(
-		/\[([^\]]+)\]\((https?:[^)]+)\)/g,
-		'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
-	);
-	out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-	out = out.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-	out = out.replace(
-		/(?<!["=>])(https?:\/\/[^\s<)]+)/g,
-		'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
-	);
-	return out;
-}
-
-function renderBody(md: string | null): string {
-	if (!md || !md.trim()) return '<p><em>No release notes.</em></p>';
+// The source file starts with `# Changelog` (h1), which would compete with
+// the StarlightPage title. Strip it so date entries (h2 in source) become the
+// top-level headings on this page.
+function stripLeadingH1(md: string): string {
 	const lines = md.replace(/\r\n/g, '\n').split('\n');
-	const html: string[] = [];
-	let inList = false;
-	let inCode = false;
-	let codeBuf: string[] = [];
-	const closeList = () => {
-		if (inList) {
-			html.push('</ul>');
-			inList = false;
-		}
-	};
-	for (const raw of lines) {
-		const line = raw.trimEnd();
-		if (line.startsWith('```')) {
-			if (inCode) {
-				html.push(`<pre><code>${escapeHtml(codeBuf.join('\n'))}</code></pre>`);
-				codeBuf = [];
-				inCode = false;
-			} else {
-				closeList();
-				inCode = true;
-			}
-			continue;
-		}
-		if (inCode) {
-			codeBuf.push(raw);
-			continue;
-		}
-		const heading = line.match(/^(#{1,6})\s+(.*)$/);
-		if (heading) {
-			closeList();
-			const level = Math.min(heading[1].length + 2, 6);
-			html.push(`<h${level}>${renderInline(heading[2])}</h${level}>`);
-			continue;
-		}
-		const listItem = line.match(/^\s*[-*]\s+(.*)$/);
-		if (listItem) {
-			if (!inList) {
-				html.push('<ul>');
-				inList = true;
-			}
-			html.push(`<li>${renderInline(listItem[1])}</li>`);
-			continue;
-		}
-		if (!line.trim()) {
-			closeList();
-			continue;
-		}
-		closeList();
-		html.push(`<p>${renderInline(line)}</p>`);
+	const i = lines.findIndex((l) => l.trim() !== '');
+	if (i >= 0 && /^#\s+/.test(lines[i])) {
+		return lines.slice(i + 1).join('\n').replace(/^\n+/, '');
 	}
-	closeList();
-	if (inCode) html.push(`<pre><code>${escapeHtml(codeBuf.join('\n'))}</code></pre>`);
-	return html.join('\n');
+	return md;
 }
+
+const body = raw ? renderMarkdown(stripLeadingH1(raw)) : null;
 ---
 
 <StarlightPage
 	frontmatter={{
-		title: 'Releases',
-		description: `Release history for ${REPO} on GitHub.`,
+		title: 'Changelog',
+		description:
+			'Ongoing development progress for Lunar Tear — what works, what was fixed, and what is still being figured out.',
 	}}
 >
-	<p>
-		Latest builds of the Lunar Tear server, pulled live from
-		<a href={`https://github.com/${REPO}/releases`} target="_blank" rel="noopener noreferrer">
-			github.com/{REPO}
-		</a>.
-	</p>
-
 	{
-		releases.length === 0 && (
+		body ? (
+			<div class="changelog" set:html={body} />
+		) : (
 			<div class="empty">
 				<p>
-					No releases found yet, or GitHub's API is rate-limiting this build.
-					Check the
-					<a href={`https://github.com/${REPO}/releases`} target="_blank" rel="noopener noreferrer">
-						releases page on GitHub
-					</a>
-					directly.
+					Couldn't load the changelog right now. Read it directly on
+					<a href={SOURCE_URL} target="_blank" rel="noopener noreferrer">GitHub</a>.
 				</p>
 			</div>
 		)
 	}
-
-	{
-		releases.map((release) => (
-			<article class="release">
-				<header>
-					<h2>
-						<a href={release.html_url} target="_blank" rel="noopener noreferrer">
-							{release.name?.trim() || release.tag_name}
-						</a>
-						{release.prerelease && <span class="badge pre">Pre-release</span>}
-					</h2>
-					<p class="meta">
-						<code>{release.tag_name}</code>
-						{release.published_at && (
-							<>
-								<span class="dot">·</span>
-								<time datetime={release.published_at}>{formatDate(release.published_at)}</time>
-							</>
-						)}
-						{release.author && (
-							<>
-								<span class="dot">·</span>
-								<a href={release.author.html_url} target="_blank" rel="noopener noreferrer">
-									@{release.author.login}
-								</a>
-							</>
-						)}
-					</p>
-				</header>
-				<div class="body" set:html={renderBody(release.body)} />
-			</article>
-		))
-	}
 </StarlightPage>
 
 <style>
-	.release {
-		padding: 1.5rem 0;
-		border-bottom: 1px solid var(--sl-color-hairline-light);
+	.changelog :global(h2) {
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--sl-color-hairline-light);
 	}
-	.release:last-child {
-		border-bottom: none;
+	.changelog :global(h2:first-of-type) {
+		margin-top: 1.5rem;
+		padding-top: 0;
+		border-top: none;
 	}
-	.release header h2 {
-		margin: 0;
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		flex-wrap: wrap;
+	.changelog :global(h3) {
+		margin-top: 1.5rem;
+		font-size: var(--sl-text-lg);
+		color: var(--sl-color-gray-2);
 	}
-	.release header h2 a {
-		color: var(--sl-color-white);
-		text-decoration: none;
-	}
-	.release header h2 a:hover {
-		text-decoration: underline;
-	}
-	.meta {
-		margin: 0.5rem 0 1rem;
-		font-size: var(--sl-text-sm);
-		color: var(--sl-color-gray-3);
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-	.meta code {
-		font-size: 0.85em;
-	}
-	.dot {
-		opacity: 0.5;
-	}
-	.badge {
-		font-size: 0.7em;
-		padding: 0.15rem 0.5rem;
-		border-radius: 999px;
-		background: var(--sl-color-orange-low);
-		color: var(--sl-color-orange-high);
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-	.body :global(h3),
-	.body :global(h4),
-	.body :global(h5),
-	.body :global(h6) {
-		margin-top: 1.25rem;
-	}
-	.body :global(ul) {
+	.changelog :global(ul) {
 		padding-left: 1.5rem;
 	}
 	.empty {

@@ -1,11 +1,21 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://lunar-tear.com',
+	prefetch: {
+		prefetchAll: true,
+		defaultStrategy: 'viewport',
+	},
+	redirects: {
+		'/guide/getting-started': '/guide/setup-quick/',
+		'/devlog': '/changelog/',
+	},
 	integrations: [
+		mermaid({ theme: 'dark', autoTheme: true }),
 		starlight({
 			title: 'Lunar Tear',
 			description: 'NieR Re[in]carnation – Private Server',
@@ -39,14 +49,18 @@ export default defineConfig({
 					label: 'Guide',
 					items: [
 						{ label: 'Introduction', slug: 'guide/intro' },
-						{ label: 'Getting Started', slug: 'guide/getting-started' },
+						{ label: 'Quick Setup', slug: 'guide/setup-quick' },
+						{ label: 'Advanced Setup', slug: 'guide/setup-advanced' },
 						{ label: 'FAQ', slug: 'guide/faq' },
 						{ label: 'Legal', slug: 'guide/legal' },
 					],
 				},
 				{
-					label: 'Releases',
-					link: '/changelog/',
+					label: 'Project',
+					items: [
+						{ label: 'Changelog', link: '/changelog/' },
+						{ label: 'Releases', link: '/releases/' },
+					],
 				},
 			],
 		}),
