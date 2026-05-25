@@ -19,8 +19,9 @@ export default defineConfig({
 		starlight({
 			title: 'Lunar Tear',
 			description: 'NieR Re[in]carnation – Private Server',
+			customCss: ['./src/styles/site.css', './src/styles/splash.css'],
 			logo: {
-				src: './src/assets/logo.webp',
+				src: './src/assets/flower.svg',
 				alt: 'Lunar Tear',
 			},
 			favicon: '/favicon.png',

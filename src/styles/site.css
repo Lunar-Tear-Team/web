@@ -1,0 +1,81 @@
+html,
+body {
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+.mermaid {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.sl-markdown-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+
+.sl-markdown-content table thead,
+.sl-markdown-content table tbody,
+.sl-markdown-content table tr {
+  display: table-row-group;
+}
+.sl-markdown-content table thead {
+  display: table-header-group;
+}
+.sl-markdown-content table tr {
+  display: table-row;
+}
+.sl-markdown-content table th,
+.sl-markdown-content table td {
+  display: table-cell;
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    gap: 1rem;
+  }
+  .hero .tagline {
+    font-size: var(--sl-text-base);
+    line-height: 1.4;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+  }
+  .hero .actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .hero .sl-link-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 40rem) and (max-width: 60rem) {
+  .hero .actions {
+    gap: 0.75rem;
+  }
+}
+
+.sl-markdown-content pre {
+  max-width: 100%;
+}
+
+:not(pre) > code {
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  .card-grid {
+    gap: 0.75rem;
+  }
+}

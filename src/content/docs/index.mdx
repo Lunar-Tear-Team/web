@@ -5,7 +5,7 @@ template: splash
 hero:
   tagline: Relive NieR Re[in]carnation — a community-run private server keeping the Cage alive after the official sunset.
   image:
-    file: ../../assets/logo.webp
+    file: ../../assets/flower.svg
   actions:
     - text: Get Started
       link: /guide/setup-quick/
@@ -24,17 +24,17 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## Preserving the Cage
 
-<CardGrid stagger>
-	<Card title="Play again" icon="rocket">
-		Step back into NieR Re[in]carnation with a community-maintained server. No subscriptions, no microtransactions.
+<CardGrid>
+	<Card title="Self-host in minutes" icon="rocket">
+		A guided wizard sets everything up on macOS, Linux, or Windows. Solo play or a server for friends — both work the same way.
 	</Card>
 	<Card title="Open source" icon="github">
-		Server, tools, and docs are all open. Read the code, file issues, send patches.
+		Clean-room reverse-engineered. MIT-licensed. Inspect, fork, and contribute on [GitHub](https://github.com/Walter-Sparrow/lunar-tear).
 	</Card>
-	<Card title="Active community" icon="discord">
-		Find help, share progress, or help test new builds in our Discord.
+	<Card title="Bring your own client" icon="information">
+		The project ships **no** game client, assets, or master data. You supply your own copy; everything on the wire is handled here.
 	</Card>
-	<Card title="Fan project" icon="heart">
-		Not affiliated with Square Enix or Applibot. No game files distributed. Non-commercial.
+	<Card title="Built by the community" icon="discord">
+		Active development, frequent releases, and a [Discord](https://discord.gg/MZAf5aVkJG) where you can help test, report bugs, or just lurk.
 	</Card>
 </CardGrid>
