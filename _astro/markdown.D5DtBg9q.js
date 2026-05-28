@@ -1,0 +1,6 @@
+function p(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}function a(t){let e=p(t);return e=e.replace(/`([^`]+)`/g,"<code>$1</code>"),e=e.replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'),e=e.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>"),e=e.replace(/(^|[^*])\*([^*]+)\*/g,"$1<em>$2</em>"),e=e.replace(/(?<!["=>])(https?:\/\/[^\s<)]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'),e}function m(t,e={}){if(!t||!t.trim())return"<p><em>No content.</em></p>";const g=e.headingShift??0,$=t.replace(/\r\n/g,`
+`).split(`
+`),n=[];let s=!1,r=!1,c=[];const o=()=>{s&&(n.push("</ul>"),s=!1)};for(const u of $){const i=u.trimEnd();if(i.startsWith("```")){r?(n.push(`<pre><code>${p(c.join(`
+`))}</code></pre>`),c=[],r=!1):(o(),r=!0);continue}if(r){c.push(u);continue}const l=i.match(/^(#{1,6})\s+(.*)$/);if(l){o();const h=Math.min(Math.max(l[1].length+g,1),6);n.push(`<h${h}>${a(l[2])}</h${h}>`);continue}const f=i.match(/^\s*[-*]\s+(.*)$/);if(f){s||(n.push("<ul>"),s=!0),n.push(`<li>${a(f[1])}</li>`);continue}if(!i.trim()){o();continue}o(),n.push(`<p>${a(i)}</p>`)}return o(),r&&n.push(`<pre><code>${p(c.join(`
+`))}</code></pre>`),n.join(`
+`)}export{m as r};

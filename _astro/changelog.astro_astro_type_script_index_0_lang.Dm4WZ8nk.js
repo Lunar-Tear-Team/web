@@ -1,0 +1,4 @@
+import{r as i}from"./markdown.D5DtBg9q.js";function s(e){const n=e.replace(/\r\n/g,`
+`).split(`
+`),t=n.findIndex(r=>r.trim()!=="");return t>=0&&/^#\s+/.test(n[t])?n.slice(t+1).join(`
+`).replace(/^\n+/,""):e}function o(e,n){const t=document.createElement("div");t.className="empty";const r=document.createElement("p"),c=document.createElement("a");c.href=n,c.target="_blank",c.rel="noopener noreferrer",c.textContent="GitHub",r.append("Couldn't load the changelog right now. Read it directly on ",c,"."),t.append(r),e.replaceChildren(t)}async function d(){const e=document.getElementById("changelog");if(!e)return;const n=e.dataset.raw??"",t=e.dataset.source??"";try{const r=await fetch(n);if(!r.ok){o(e,t);return}const c=await r.text(),a=document.createElement("div");a.className="changelog",a.innerHTML=i(s(c)),e.replaceChildren(a)}catch{o(e,t)}}d();
