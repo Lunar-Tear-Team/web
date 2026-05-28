@@ -1,44 +1,11 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
-import { renderMarkdown } from '../lib/markdown';
 
 const REPO = 'Walter-Sparrow/lunar-tear';
 const BRANCH = 'main';
 const PATH = 'docs/CHANGELOG.md';
 const RAW_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}`;
 const SOURCE_URL = `https://github.com/${REPO}/blob/${BRANCH}/${PATH}`;
-
-async function fetchChangelog(): Promise<string | null> {
-	try {
-		const res = await fetch(RAW_URL, {
-			headers: { 'User-Agent': 'lunar-tear-web' },
-		});
-		if (!res.ok) {
-			console.warn(`CHANGELOG fetch failed: ${res.status} ${res.statusText}`);
-			return null;
-		}
-		return await res.text();
-	} catch (err) {
-		console.warn('CHANGELOG fetch error:', err);
-		return null;
-	}
-}
-
-const raw = await fetchChangelog();
-
-// The source file starts with `# Changelog` (h1), which would compete with
-// the StarlightPage title. Strip it so date entries (h2 in source) become the
-// top-level headings on this page.
-function stripLeadingH1(md: string): string {
-	const lines = md.replace(/\r\n/g, '\n').split('\n');
-	const i = lines.findIndex((l) => l.trim() !== '');
-	if (i >= 0 && /^#\s+/.test(lines[i])) {
-		return lines.slice(i + 1).join('\n').replace(/^\n+/, '');
-	}
-	return md;
-}
-
-const body = raw ? renderMarkdown(stripLeadingH1(raw)) : null;
 ---
 
 <StarlightPage
@@ -48,40 +15,84 @@ const body = raw ? renderMarkdown(stripLeadingH1(raw)) : null;
 			'Ongoing development progress for Lunar Tear — what works, what was fixed, and what is still being figured out.',
 	}}
 >
-	{
-		body ? (
-			<div class="changelog" set:html={body} />
-		) : (
-			<div class="empty">
-				<p>
-					Couldn't load the changelog right now. Read it directly on
-					<a href={SOURCE_URL} target="_blank" rel="noopener noreferrer">GitHub</a>.
-				</p>
-			</div>
-		)
-	}
+	<div id="changelog" data-raw={RAW_URL} data-source={SOURCE_URL}>
+		<p class="loading">Loading changelog…</p>
+	</div>
 </StarlightPage>
 
+<script>
+	import { renderMarkdown } from '../lib/markdown';
+
+	function stripLeadingH1(md: string): string {
+		const lines = md.replace(/\r\n/g, '\n').split('\n');
+		const i = lines.findIndex((l) => l.trim() !== '');
+		if (i >= 0 && /^#\s+/.test(lines[i])) {
+			return lines.slice(i + 1).join('\n').replace(/^\n+/, '');
+		}
+		return md;
+	}
+
+	function renderEmpty(container: HTMLElement, source: string) {
+		const div = document.createElement('div');
+		div.className = 'empty';
+		const p = document.createElement('p');
+		const a = document.createElement('a');
+		a.href = source;
+		a.target = '_blank';
+		a.rel = 'noopener noreferrer';
+		a.textContent = 'GitHub';
+		p.append("Couldn't load the changelog right now. Read it directly on ", a, '.');
+		div.append(p);
+		container.replaceChildren(div);
+	}
+
+	async function load() {
+		const container = document.getElementById('changelog');
+		if (!container) return;
+		const raw = container.dataset.raw ?? '';
+		const source = container.dataset.source ?? '';
+		try {
+			const res = await fetch(raw);
+			if (!res.ok) {
+				renderEmpty(container, source);
+				return;
+			}
+			const text = await res.text();
+			const div = document.createElement('div');
+			div.className = 'changelog';
+			div.innerHTML = renderMarkdown(stripLeadingH1(text));
+			container.replaceChildren(div);
+		} catch {
+			renderEmpty(container, source);
+		}
+	}
+
+	load();
+</script>
+
 <style>
-	.changelog :global(h2) {
+	#changelog :global(.loading) {
+		color: var(--sl-color-gray-3);
+	}
+	#changelog :global(.changelog h2) {
 		margin-top: 2.5rem;
 		padding-top: 1.5rem;
 		border-top: 1px solid var(--sl-color-hairline-light);
 	}
-	.changelog :global(h2:first-of-type) {
+	#changelog :global(.changelog h2:first-of-type) {
 		margin-top: 1.5rem;
 		padding-top: 0;
 		border-top: none;
 	}
-	.changelog :global(h3) {
+	#changelog :global(.changelog h3) {
 		margin-top: 1.5rem;
 		font-size: var(--sl-text-lg);
 		color: var(--sl-color-gray-2);
 	}
-	.changelog :global(ul) {
+	#changelog :global(.changelog ul) {
 		padding-left: 1.5rem;
 	}
-	.empty {
+	#changelog :global(.empty) {
 		padding: 1rem;
 		border: 1px dashed var(--sl-color-hairline);
 		border-radius: 0.5rem;
